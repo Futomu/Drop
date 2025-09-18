@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เลือกสัญลักษณ์</title>
+<style>
+  body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    transition: background 0.5s, color 0.5s;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    transition: color 0.5s;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+
+  .controls button {
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .controls button.active {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+
+  .controls button.inactive {
+    background: #ecf0f1;
+    color: #7f8c8d;
+  }
+
+  .teams-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+  }
+
+  .team-section {
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    width: 400px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.5s;
+  }
+
+  .team-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  }
+
+  h2 {
+    margin: 12px 0 20px;
+    font-size: 1.5rem;
+    transition: color 0.5s;
+  }
+
+  .symbols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .symbols img {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    background: #fefefe;
+    transition: all 0.25s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  }
+
+  .symbols img:hover {
+    transform: scale(1.12) rotate(-2deg);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    border-color: #3498db;
+  }
+
+  /* Dropzone แบบเรียงแนวนอน */
+.dropzone {
+    display: grid;
+    grid-template-columns: repeat(4, 76px); /* 4 รูปต่อแถว */
+    gap: 8px;
+    padding: 8px;
+    border: 3px dashed #ccc;
+    border-radius: 15px;
+    background: #fafafa;
+    width: 344px; /* พอดีกับ 4 รูป + gap + padding */
+    box-sizing: border-box; /* ให้ padding รวมอยู่ใน width */
+}
+
+.dropzone img {
+    width: 76px;
+    height: 76px;
+    object-fit: cover;  /* รูปเต็มกรอบ */
+    border: none;       /* เอากรอบออก */
+    border-radius: 12px;
+}
+
+
+  .dropzone img:hover {
+    transform: scale(1.1);
+    border-color: #2980b9;
+  }
+
+  .dropzone.team-red-zone { border-color: #e74c3c; }
+  .dropzone.team-red-zone img { border-color: #e74c3c; }
+  .dropzone.team-green-zone { border-color: #27ae60; }
+  .dropzone.team-green-zone img { border-color: #27ae60; }
+
+  .dropzone.drag-over {
+    background: #f0f8ff;
+    border-color: #3498db;
+  }
+
+  .reset-btn {
+    display: block;
+    margin: 35px auto 0;
+    padding: 12px 35px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+  }
+
+  .reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+
+  /* Dark Mode */
+  body.dark {
+    background: linear-gradient(135deg, #1e1e2f, #2c2c3e);
+    color: #e0e0e0;
+  }
+
+  body.dark h1 { color: #f1f1f1; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+  body.dark .team-section { background: #2b2b3a; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+  body.dark h2 { color: #f39c12; }
+  body.dark .symbols img { background: #3b3b4d; box-shadow: 0 3px 6px rgba(0,0,0,0.6); }
+  body.dark .dropzone { background: #3b3b4d; border-color: #888; }
+  body.dark .dropzone.drag-over { background: #4b4b6b; border-color: #3498db; }
+  body.dark .dropzone img { border-color: #fff; }
+  body.dark .reset-btn { background: linear-gradient(45deg, #8e44ad, #5e3370); box-shadow: 0 6px 15px rgba(0,0,0,0.5); }
+  body.dark .reset-btn:hover { box-shadow: 0 10px 25px rgba(0,0,0,0.7); }
+</style>
+</head>
+<body>
+<h1>เลือกสัญลักษณ์สำหรับแต่ละทีม</h1>
+
+<div class="controls">
+  <button id="dragMode" class="active">โหมดลากวาง</button>
+  <button id="clickMode" class="inactive">โหมดคลิกเลือก</button>
+  <button id="themeToggle" class="inactive">Dark Mode</button>
+</div>
+
+<div class="teams-container">
+  <!-- ทีมแดง -->
+  <div class="team-section">
+    <h2 style="color:#e74c3c;">ทีมสีแดง</h2>
+    <div class="symbols red-symbols">
+      <img src="img/red1.png" draggable="true" id="r1">
+      <img src="img/red2.png" draggable="true" id="r2">
+      <img src="img/red3.png" draggable="true" id="r3">
+      <img src="img/red4.png" draggable="true" id="r4">
+      <img src="img/red5.png" draggable="true" id="r5">
+      <img src="img/red6.png" draggable="true" id="r6">
+      <img src="img/red7.png" draggable="true" id="r7">
+      <img src="img/red8.png" draggable="true" id="r8">
+    </div>
+    <div class="dropzone team-red-zone" id="redZone"></div>
+  </div>
+
+  <!-- ทีมเขียว -->
+  <div class="team-section">
+    <h2 style="color:#27ae60;">ทีมสีเขียว</h2>
+    <div class="symbols green-symbols">
+      <img src="img/green1.png" draggable="true" id="g1">
+      <img src="img/green2.png" draggable="true" id="g2">
+      <img src="img/green3.png" draggable="true" id="g3">
+      <img src="img/green4.png" draggable="true" id="g4">
+      <img src="img/green5.png" draggable="true" id="g5">
+      <img src="img/green6.png" draggable="true" id="g6">
+      <img src="img/green7.png" draggable="true" id="g7">
+      <img src="img/green8.png" draggable="true" id="g8">
+    </div>
+    <div class="dropzone team-green-zone" id="greenZone"></div>
+  </div>
+</div>
+
+<button class="reset-btn" onclick="resetZones()">รีเซ็ต</button>
+
+<script>
+let mode = "drag";
+const symbols = document.querySelectorAll(".symbols img");
+const dropzones = document.querySelectorAll(".dropzone");
+
+// Drag mode
+symbols.forEach(symbol => {
+  symbol.addEventListener("dragstart", e => {
+    if (mode !== "drag") return;
+    e.dataTransfer.setData("id", symbol.id);
+  });
+});
+
+dropzones.forEach(zone => {
+  zone.addEventListener("dragover", e => {
+    if (mode !== "drag") return;
+    e.preventDefault();
+  });
+  zone.addEventListener("drop", e => {
+    if (mode !== "drag") return;
+    e.preventDefault();
+    const id = e.dataTransfer.getData("id");
+    const dragged = document.getElementById(id);
+    if (!zone.contains(dragged)) {
+      zone.appendChild(dragged);
+    }
+  });
+});
+
+// Click mode
+symbols.forEach(symbol => {
+  symbol.addEventListener("click", () => {
+    if (mode !== "click") return;
+    const isRed = symbol.id.startsWith("r");
+    const targetZone = isRed ? document.getElementById("redZone") : document.getElementById("greenZone");
+    if (!targetZone.contains(symbol)) {
+      targetZone.appendChild(symbol);
+    }
+  });
+});
+
+// Mode switch
+document.getElementById("dragMode").addEventListener("click", () => {
+  mode = "drag";
+  document.getElementById("dragMode").classList.add("active");
+  document.getElementById("dragMode").classList.remove("inactive");
+  document.getElementById("clickMode").classList.remove("active");
+  document.getElementById("clickMode").classList.add("inactive");
+});
+
+document.getElementById("clickMode").addEventListener("click", () => {
+  mode = "click";
+  document.getElementById("clickMode").classList.add("active");
+  document.getElementById("clickMode").classList.remove("inactive");
+  document.getElementById("dragMode").classList.remove("active");
+  document.getElementById("dragMode").classList.add("inactive");
+});
+
+// Theme toggle
+const themeBtn = document.getElementById("themeToggle");
+themeBtn.addEventListener("click", () => {
+  document.body.classList.toggle('dark');
+  if(document.body.classList.contains('dark')){
+    themeBtn.textContent = "Light Mode";
+    themeBtn.classList.add("active");
+    themeBtn.classList.remove("inactive");
+  } else {
+    themeBtn.textContent = "Dark Mode";
+    themeBtn.classList.remove("active");
+    themeBtn.classList.add("inactive");
+  }
+});
+
+// Reset function
+function resetZones() {
+  const redSymbols = document.querySelector(".red-symbols");
+  const greenSymbols = document.querySelector(".green-symbols");
+  for (let i = 1; i <= 8; i++) {
+    redSymbols.appendChild(document.getElementById("r" + i));
+    greenSymbols.appendChild(document.getElementById("g" + i));
+  }
+}
+</script>
+</body>
+</html>
