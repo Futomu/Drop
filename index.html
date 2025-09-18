@@ -6,27 +6,26 @@
 <style>
   body {
     font-family: 'Poppins', Arial, sans-serif;
-    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+    background: linear-gradient(135deg, #f0f4f8, #dceefc);
     color: #333;
     margin: 0;
-    padding: 20px;
+    padding: 20px 20px 80px 20px; 
     transition: background 0.5s, color 0.5s;
   }
 
   h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: #2c3e50;
-    font-size: 2rem;
+    font-size: 2.2rem;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-    transition: color 0.5s;
   }
 
   .controls {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     flex-wrap: wrap;
   }
 
@@ -38,14 +37,14 @@
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
   }
 
   .controls button.active {
     background: linear-gradient(45deg, #3498db, #2980b9);
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
   }
 
   .controls button.inactive {
@@ -56,29 +55,29 @@
   .teams-container {
     display: flex;
     justify-content: center;
-    gap: 50px;
+    gap: 40px;
     flex-wrap: wrap;
   }
 
   .team-section {
     background: #fff;
-    border-radius: 20px;
+    border-radius: 18px;
     padding: 25px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     width: 400px;
     text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s, background 0.5s;
+    transition: transform 0.3s, box-shadow 0.3s;
   }
 
   .team-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.15);
   }
 
   h2 {
     margin: 12px 0 20px;
     font-size: 1.5rem;
-    transition: color 0.5s;
+    font-weight: 600;
   }
 
   .symbols {
@@ -93,50 +92,44 @@
     width: 70px;
     height: 70px;
     cursor: pointer;
-    border: 3px solid transparent;
     border-radius: 12px;
     background: #fefefe;
     transition: all 0.25s;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
   }
 
   .symbols img:hover {
     transform: scale(1.12) rotate(-2deg);
     box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    border-color: #3498db;
   }
 
-  /* Dropzone แบบเรียงแนวนอน */
-.dropzone {
+  .dropzone {
     display: grid;
-    grid-template-columns: repeat(4, 76px); /* 4 รูปต่อแถว */
-    gap: 8px;
-    padding: 8px;
+    grid-template-columns: repeat(4, 76px);
+    gap: 10px;
+    justify-content: center;
+    padding: 12px;
     border: 3px dashed #ccc;
     border-radius: 15px;
     background: #fafafa;
-    width: 344px; /* พอดีกับ 4 รูป + gap + padding */
-    box-sizing: border-box; /* ให้ padding รวมอยู่ใน width */
-}
+    transition: background 0.3s, border-color 0.3s;
+  }
 
-.dropzone img {
+  .dropzone img {
     width: 76px;
     height: 76px;
-    object-fit: cover;  /* รูปเต็มกรอบ */
-    border: none;       /* เอากรอบออก */
+    object-fit: cover;
     border-radius: 12px;
-}
-
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    transition: transform 0.25s;
+  }
 
   .dropzone img:hover {
-    transform: scale(1.1);
-    border-color: #2980b9;
+    transform: scale(1.08);
   }
 
   .dropzone.team-red-zone { border-color: #e74c3c; }
-  .dropzone.team-red-zone img { border-color: #e74c3c; }
   .dropzone.team-green-zone { border-color: #27ae60; }
-  .dropzone.team-green-zone img { border-color: #27ae60; }
 
   .dropzone.drag-over {
     background: #f0f8ff;
@@ -145,7 +138,7 @@
 
   .reset-btn {
     display: block;
-    margin: 35px auto 0;
+    margin: 40px auto 0;
     padding: 12px 35px;
     font-size: 16px;
     font-weight: 500;
@@ -154,13 +147,72 @@
     background: linear-gradient(45deg, #3498db, #2980b9);
     color: #fff;
     cursor: pointer;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
     transition: all 0.3s;
   }
 
   .reset-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  }
+
+  /* Support Section */
+  .support-section {
+    max-width: 900px;
+    margin: 50px auto 0;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .support-card {
+    background:#fff;
+    border: 2px solid #3498db;
+    border-radius: 15px;
+    padding:15px;
+    width:150px;
+    text-align:center;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+    transition: all 0.3s;
+    position: relative;
+  }
+  .support-card:hover {
+    transform: translateY(-3px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+  }
+  .support-card img {
+    width: 80px;
+    height: 80px;
+    border-radius:10px;
+    display:block;
+    margin:0 auto 5px auto;
+  }
+  .support-card p {
+    font-size:12px;
+    margin:0;
+  }
+
+  /* Tooltip */
+  .support-card .tooltip {
+    visibility: hidden;
+    width: 140px;
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 6px;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+    z-index: 10;
+  }
+  .support-card:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
   }
 
   /* Dark Mode */
@@ -168,16 +220,17 @@
     background: linear-gradient(135deg, #1e1e2f, #2c2c3e);
     color: #e0e0e0;
   }
-
-  body.dark h1 { color: #f1f1f1; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
-  body.dark .team-section { background: #2b2b3a; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-  body.dark h2 { color: #f39c12; }
-  body.dark .symbols img { background: #3b3b4d; box-shadow: 0 3px 6px rgba(0,0,0,0.6); }
-  body.dark .dropzone { background: #3b3b4d; border-color: #888; }
-  body.dark .dropzone.drag-over { background: #4b4b6b; border-color: #3498db; }
-  body.dark .dropzone img { border-color: #fff; }
-  body.dark .reset-btn { background: linear-gradient(45deg, #8e44ad, #5e3370); box-shadow: 0 6px 15px rgba(0,0,0,0.5); }
-  body.dark .reset-btn:hover { box-shadow: 0 10px 25px rgba(0,0,0,0.7); }
+  body.dark h1 { color:#f1f1f1; text-shadow:1px 1px 3px rgba(0,0,0,0.5);}
+  body.dark .team-section {background:#2b2b3a; box-shadow:0 10px 25px rgba(0,0,0,0.5);}
+  body.dark h2 { color:#f39c12; }
+  body.dark .symbols img {background:#3b3b4d; box-shadow:0 3px 6px rgba(0,0,0,0.6);}
+  body.dark .dropzone {background:#3b3b4d; border-color:#888;}
+  body.dark .dropzone.drag-over {background:#4b4b6b; border-color:#3498db;}
+  body.dark .dropzone img {box-shadow:0 4px 10px rgba(0,0,0,0.5);}
+  body.dark .reset-btn {background:linear-gradient(45deg,#8e44ad,#5e3370); box-shadow:0 6px 15px rgba(0,0,0,0.5);}
+  body.dark .reset-btn:hover {box-shadow:0 10px 25px rgba(0,0,0,0.7);}
+  body.dark .support-card {background:#2b2b3a; border:2px solid #8e44ad; box-shadow:0 6px 15px rgba(0,0,0,0.5);}
+  body.dark .support-card p, body.dark .support-card .tooltip {color:#fff;}
 </style>
 </head>
 <body>
@@ -225,6 +278,20 @@
 
 <button class="reset-btn" onclick="resetZones()">รีเซ็ต</button>
 
+<!-- Support QR -->
+<div class="support-section">
+  <div class="support-card">
+    <img src="img/qr_promptpay.png" alt="QR PromptPay">
+    <p>PromptPay</p>
+    <div class="tooltip">สแกนเพื่อสนับสนุนผู้พัฒนา</div>
+  </div>
+  <div class="support-card">
+    <img src="img/qr_truemoney.png" alt="QR TrueMoney">
+    <p>TrueMoney</p>
+    <div class="tooltip">สแกนเพื่อสนับสนุนผู้พัฒนา</div>
+  </div>
+</div>
+
 <script>
 let mode = "drag";
 const symbols = document.querySelectorAll(".symbols img");
@@ -242,13 +309,18 @@ dropzones.forEach(zone => {
   zone.addEventListener("dragover", e => {
     if (mode !== "drag") return;
     e.preventDefault();
+    zone.classList.add("drag-over");
+  });
+  zone.addEventListener("dragleave", () => {
+    zone.classList.remove("drag-over");
   });
   zone.addEventListener("drop", e => {
     if (mode !== "drag") return;
     e.preventDefault();
+    zone.classList.remove("drag-over");
     const id = e.dataTransfer.getData("id");
     const dragged = document.getElementById(id);
-    if (!zone.contains(dragged)) {
+    if (!zone.contains(dragged) && zone.children.length < 8) {
       zone.appendChild(dragged);
     }
   });
@@ -260,7 +332,7 @@ symbols.forEach(symbol => {
     if (mode !== "click") return;
     const isRed = symbol.id.startsWith("r");
     const targetZone = isRed ? document.getElementById("redZone") : document.getElementById("greenZone");
-    if (!targetZone.contains(symbol)) {
+    if (!targetZone.contains(symbol) && targetZone.children.length < 8) {
       targetZone.appendChild(symbol);
     }
   });
